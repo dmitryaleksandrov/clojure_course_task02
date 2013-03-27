@@ -9,7 +9,7 @@
               (let [fs (filter #(.isFile %) (.listFiles d))
                     ds (filter #(.isDirectory %) (.listFiles d))] 
                 (apply concat 
-                  (conj (map find-in-dir ds) 
+                  (conj (doall (pmap find-in-dir ds))
                     (filter #(re-matches fpattern %)  
                       (conj (map #(.getName %) fs) (.getPath d)))))))]
     (let [result (find-in-dir (File. path))]
